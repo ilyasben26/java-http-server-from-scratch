@@ -22,7 +22,9 @@ public class HttpConnectionWorkerThread extends Thread {
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
 
-            // TODO: reading request
+            // reading request
+
+
 
             // writing response
             String html = "<html><head><title>Simple HTTP Server</title><body><h1>Hello, World!</h1></body></head></html>";

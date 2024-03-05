@@ -1,6 +1,6 @@
-package com.ilyasben;
+package com.ilyasben.httpserver;
 
-public class Main {
+public class HttpServer {
     public static void main(String[] args) {
         System.out.println("Hello world!");
     }

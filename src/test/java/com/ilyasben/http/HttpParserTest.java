@@ -49,6 +49,62 @@ class HttpParserTest {
 
     }
 
+    @Test
+    void parseHttpRequestBadMethod2() {
+        HttpRequest request = null;
+        try {
+            request = httpParser.parseHttpRequest(
+                    generateBadGETestCaseMethodName2()
+            );
+            fail();
+        } catch (HttpParsingException e) {
+            assertEquals(e.getErrorCode(), HttpStatusCode.SERVER_ERROR_501_NOT_IMPLEMENTED);
+        }
+
+    }
+
+    @Test
+    void parseHttpRequestInvNumItems1() {
+        HttpRequest request = null;
+        try {
+            request = httpParser.parseHttpRequest(
+                    generateBadGETestCaseRequestLineInvNumItems1()
+            );
+            fail();
+        } catch (HttpParsingException e) {
+            assertEquals(e.getErrorCode(), HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST);
+        }
+
+    }
+
+    @Test
+    void parseHttpEmptyRequestLine() {
+        HttpRequest request = null;
+        try {
+            request = httpParser.parseHttpRequest(
+                    generateBadGETestCaseEmptyRequestLine()
+            );
+            fail();
+        } catch (HttpParsingException e) {
+            assertEquals(e.getErrorCode(), HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST);
+        }
+
+    }
+
+    @Test
+    void parseHttpRequestLineCRnoLF() {
+        HttpRequest request = null;
+        try {
+            request = httpParser.parseHttpRequest(
+                    generateBadGETestCaseRequestLineOnlyCRnoLF()
+            );
+            fail();
+        } catch (HttpParsingException e) {
+            assertEquals(e.getErrorCode(), HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST);
+        }
+
+    }
+
     private InputStream generateValidGETTestCase() {
         String rawData = "GET / HTTP/1.1\r\n" +
                 "Host: localhost:8080\r\n" +
@@ -88,4 +144,69 @@ class HttpParserTest {
 
         return inputStream;
     }
+
+    private InputStream generateBadGETestCaseMethodName2() {
+        String rawData = "GETTTTTTTT / HTTP/1.1\r\n" +
+                "Host: localhost:8080\r\n" +
+                "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:123.0) Gecko/20100101 Firefox/123.0\r\n" +
+                "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8\r\n" +
+                "Accept-Language: en-US,en;q=0.5\r\n";
+
+        InputStream inputStream = new ByteArrayInputStream(
+                rawData.getBytes(
+                        StandardCharsets.US_ASCII
+                )
+        );
+
+        return inputStream;
+    }
+
+    private InputStream generateBadGETestCaseRequestLineInvNumItems1() {
+        String rawData = "GET / AAAA / HTTP/1.1\r\n" +
+                "Host: localhost:8080\r\n" +
+                "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:123.0) Gecko/20100101 Firefox/123.0\r\n" +
+                "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8\r\n" +
+                "Accept-Language: en-US,en;q=0.5\r\n";
+
+        InputStream inputStream = new ByteArrayInputStream(
+                rawData.getBytes(
+                        StandardCharsets.US_ASCII
+                )
+        );
+
+        return inputStream;
+    }
+
+    private InputStream generateBadGETestCaseEmptyRequestLine() {
+        String rawData = "\r\n" +
+                "Host: localhost:8080\r\n" +
+                "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:123.0) Gecko/20100101 Firefox/123.0\r\n" +
+                "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8\r\n" +
+                "Accept-Language: en-US,en;q=0.5\r\n";
+
+        InputStream inputStream = new ByteArrayInputStream(
+                rawData.getBytes(
+                        StandardCharsets.US_ASCII
+                )
+        );
+
+        return inputStream;
+    }
+
+    private InputStream generateBadGETestCaseRequestLineOnlyCRnoLF() {
+        String rawData = "GET / HTTP/1.1\r" + // only CR, no LF
+                "Host: localhost:8080\r\n" +
+                "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:123.0) Gecko/20100101 Firefox/123.0\r\n" +
+                "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8\r\n" +
+                "Accept-Language: en-US,en;q=0.5\r\n";
+
+        InputStream inputStream = new ByteArrayInputStream(
+                rawData.getBytes(
+                        StandardCharsets.US_ASCII
+                )
+        );
+
+        return inputStream;
+    }
+
 }

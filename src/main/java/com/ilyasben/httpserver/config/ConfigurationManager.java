@@ -7,6 +7,7 @@ import com.ilyasben.httpserver.util.Json;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class ConfigurationManager {
     // Singleton instance
@@ -33,19 +34,15 @@ public class ConfigurationManager {
      */
     public void loadConfigurationFile(String filePath) {
 
-        FileReader fileReader = null;
-        try {
-            // Attempt to open the configuration file for reading
-            fileReader = new FileReader(filePath);
-        } catch (FileNotFoundException e) {
-            // Throw an exception if the file is not found
-            throw new HttpConfigurationException(e);
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
+        if (inputStream == null) {
+            throw new HttpConfigurationException("File not found: " + filePath);
         }
         StringBuffer sb = new StringBuffer();
         int i;
         try {
             // Read the contents of the file into a StringBuffer
-            while ((i = fileReader.read()) != -1) {
+            while ((i = inputStream.read()) != -1) {
                 sb.append((char) i);
             }
         } catch (IOException e) {

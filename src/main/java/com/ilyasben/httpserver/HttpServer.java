@@ -25,7 +25,7 @@ public class HttpServer {
         LOGGER.info("Server starting...");
 
         // Load configuration using ConfigurationManager singleton
-        ConfigurationManager.getInstance().loadConfigurationFile("src/main/resources/http.json");
+        ConfigurationManager.getInstance().loadConfigurationFile("http.json");
 
         // Get the loaded configuration
         Configuration conf = ConfigurationManager.getInstance().getCurrentConfiguration();

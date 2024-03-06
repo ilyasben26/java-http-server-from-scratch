@@ -16,3 +16,4 @@ A simple http server that does the following:
 1. Make sure you have Java 21 or later.
 2. Download the jar file `simplehttpserver.jar` from the releases. 
 3. Execute `java -jar simplehttpserver.jar`.
+4. Check `http://localhost:8080`.

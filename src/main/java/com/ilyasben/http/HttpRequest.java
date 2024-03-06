@@ -4,7 +4,8 @@ public class HttpRequest extends HttpMessage {
 
     private HttpMethod method;
     private String requestTarget;
-    private String httpVersion;
+    private String originalHttpVersion;
+    private HttpVersion bestCompatibleHttpVersion;
 
     HttpRequest() {
 
@@ -12,6 +13,10 @@ public class HttpRequest extends HttpMessage {
 
     public HttpMethod getMethod() {
         return method;
+    }
+
+    public String getRequestTarget() {
+        return requestTarget;
     }
 
     void setMethod(String methodName) throws HttpParsingException {
@@ -24,6 +29,29 @@ public class HttpRequest extends HttpMessage {
         throw new HttpParsingException(
                 HttpStatusCode.SERVER_ERROR_501_NOT_IMPLEMENTED
         );
+    }
+
+    void setRequestTarget(String requestTarget) throws HttpParsingException {
+        if (requestTarget == null || requestTarget.length() == 0) {
+            throw new HttpParsingException(HttpStatusCode.CLIENT_ERROR_400_BAD_REQUEST);
+        }
+        this.requestTarget = requestTarget;
+    }
+
+    public String getOriginalHttpVersion() {
+        return originalHttpVersion;
+    }
+
+    public HttpVersion getBestCompatibleHttpVersion() {
+        return bestCompatibleHttpVersion;
+    }
+
+    void setHttpVersion(String originalHttpVersion) throws BadHttpVersionException, HttpParsingException {
+        this.originalHttpVersion = originalHttpVersion;
+        this.bestCompatibleHttpVersion = HttpVersion.getBestCompatibleVersion(originalHttpVersion);
+        if (this.bestCompatibleHttpVersion == null) {
+            throw new HttpParsingException(HttpStatusCode.SERVER_ERROR_505_HTTP_VERSION_NOT_SUPPORTED);
+        }
     }
 }
 

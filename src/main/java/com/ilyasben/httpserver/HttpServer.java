@@ -9,34 +9,36 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 /**
- *
- * Driver Class for the Http Server
- *
+ * Entry point class for the HTTP server.
  */
 public class HttpServer {
 
+    // Logger for logging server events
+    private final static Logger LOGGER = LoggerFactory.getLogger(HttpServer.class);
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(HttpServer.class);  // Logger
-
+    /**
+     * Main method to start the HTTP server.
+     * @param args Command line arguments (not used).
+     */
     public static void main(String[] args) {
 
         LOGGER.info("Server starting...");
-        // using the Configuration Manager singleton to load a configuration file
+
+        // Load configuration using ConfigurationManager singleton
         ConfigurationManager.getInstance().loadConfigurationFile("src/main/resources/http.json");
 
-        // fetching the loaded configuration
+        // Get the loaded configuration
         Configuration conf = ConfigurationManager.getInstance().getCurrentConfiguration();
         LOGGER.info("Using Port: " + conf.getPort());
         LOGGER.info("Using WebRoot: " + conf.getWebroot());
 
-        // Creating and running a ServerListener Thread
+        // Create and start a ServerListenerThread to listen for incoming connections
         try {
             ServerListenerThread serverListenerThread = new ServerListenerThread(conf.getPort(), conf.getWebroot());
             serverListenerThread.start();
         } catch (IOException e) {
+            // Handle any exceptions that occur during server startup
             e.printStackTrace();
-            // TODO handle the error properly
         }
-
     }
 }

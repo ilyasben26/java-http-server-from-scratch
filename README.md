@@ -5,9 +5,14 @@ A simple http server that does the following:
 - Returns a predefined response
 
 ## What I learned from this project:
-- Learning more about the HTTP protocol and implementing it using the IETF documentation.  
+- Learned more about the HTTP protocol and how to implement it using the IETF documentation.  
 - Working with threads in Java.
 - Writing unit tests using JUnit.
-- Test-driven development (used for properly implementing the HTTP parser)
+- Test-driven development (used for properly implementing the HTTP parser).
 - Using Maven to manage dependencies.
-- Working with Streams
+- Working with Streams.
+
+## How to run:
+1. Make sure you have Java 21 or later.
+2. Download the jar file `simplehttpserver.jar` from the releases. 
+3. Execute `java -jar simplehttpserver.jar`.

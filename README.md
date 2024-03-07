@@ -4,6 +4,9 @@ A simple http server that does the following:
 - Handles and parses the incoming HTTP request
 - Returns a predefined response
 
+![SimpleHttpServerDiagram](https://github.com/ilyasben26/java-http-server-from-scratch/assets/73348981/2f00b2bb-a7f3-4110-b632-0fa932acfbb6)
+
+
 ## What I learned from this project:
 - Learned more about the HTTP protocol and how to implement it using the IETF documentation.  
 - Working with threads in Java.
